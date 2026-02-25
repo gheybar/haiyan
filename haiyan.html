@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Surprise! 🎁</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #b3e5fc; 
+            background-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3oyYWg0aDZreGllOGE2NXA0MGw2aWppb2o0MWFvcm9kOGU2b3U0diZlcD12MV9naWZzX3NlYXJjaCZjdD1n/1dJWpgoy4a72Jfdwi0/giphy.gif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            
+            color: #37474f; 
+            text-align: center;
+            margin: 0;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #e0f7fa; 
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35); 
+            max-width: 85%;
+            width: 400px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .img-cute {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            /* This ensures images with different proportions still fit nicely */
+            object-fit: cover; 
+            aspect-ratio: 1 / 1; 
+        }
+
+        /* Styles specifically for the slideshow */
+        #slideshowImage {
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+            margin-top: 10px;
+        }
+
+        h1 {
+            color: #43a047; 
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h2 {
+            color: #29b6f6; /* Matching pastel blue for the sub-heading */
+            font-size: 1.5rem;
+            margin-top: 40px; /* Creates the space you asked for! */
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .btn {
+            background-color: #ffca28; 
+            color: #37474f;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, background-color 0.2s, color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #66bb6a; 
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Hidden initially */
+        #birthdayMessage {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="landingPage">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExODFhZW1nY2Y1dmhhZmV5OGZmY3hoODJrOGk0MXVybzcyNHB4ZGNldiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/901mxGLGQN2PyCQpoc/giphy.gif" alt="Cute Cat" class="img-cute">
+        
+        <h1>Hey you!</h1>
+        <p>I have a tiny surprise for you... ready?</p>
+        <button class="btn" onclick="revealSurprise()">Tap Here! 💌</button>
+    </div>
+
+    <div class="container" id="birthdayMessage">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3B5a3p6aHNmeHM0ZWZ5NXNtbW8wdmxuMmJtbTN3MnV0YXZuMGxyNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Cute Cat Celebration" class="img-cute">
+
+        <h1>Happy Birthday! 🎂🎉</h1>
+        <p>I hope on your special day (and every other day), that you are filled with as much joy and happiness as you bring me. I love you! ❤️</p>
+        <p>From your favourite waffle, to my favourite person</p>
+        
+        <h2>My favourite pictures of you</h2>
+        
+        <img id="slideshowImage" src="1.jpg" alt="Our Memories" class="img-cute">
+    </div>
+
+    <script>
+        // Slideshow functionality
+        let currentImageIndex = 1;
+        const totalImages = 10; 
+
+        function startSlideshow() {
+            const slideImg = document.getElementById('slideshowImage');
+            
+            // Change image every 3 seconds (3000 milliseconds)
+            setInterval(function() {
+                // Fade out
+                slideImg.style.opacity = 0;
+                
+                setTimeout(function() {
+                    // Go to next image, or loop back to 1
+                    currentImageIndex++;
+                    if (currentImageIndex > totalImages) {
+                        currentImageIndex = 1;
+                    }
+                    
+                    // Update the image source
+                    slideImg.src = currentImageIndex + '.jpg';
+                    
+                    // Fade back in
+                    slideImg.style.opacity = 1;
+                }, 500); // 500ms matches the CSS transition time
+            }, 3000); 
+        }
+
+        function revealSurprise() {
+            document.getElementById('landingPage').style.display = 'none';
+            document.getElementById('birthdayMessage').style.display = 'block';
+
+            // Start the slideshow when the button is clicked!
+            startSlideshow();
+
+            // Trigger the confetti
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+              var timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              var particleCount = 50 * (timeLeft / duration);
+              var colors = ['#43a047', '#ffca28', '#29b6f6'];
+
+              confetti(Object.assign({}, defaults, { 
+                particleCount,
+                colors: colors,
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+              }));
+              confetti(Object.assign({}, defaults, { 
+                particleCount,
+                colors: colors,
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+              }));
+            }, 250);
+        }
+    </script>
+</body>
+</html>
